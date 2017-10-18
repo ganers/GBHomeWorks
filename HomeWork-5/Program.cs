@@ -59,20 +59,14 @@ namespace HomeWork_5
         //Класс для работы с строками. Для второй задачи.
         class MyString
         {
-            string s;
-
-            MyString(string s)
-            {
-                this.s = s;
-            }
             //Метод переводит строку в массив слов
-            string[] ParseToArray(string s)
+            public static string[] ParseToArray(string s)
             {
                 
                 if (s.Length > 0)
                 {
                     string[] sArr;
-                    sArr = s.Split(' ', ',', '.', '!', '?');
+                    sArr = s.Split(' ', '.', ',', '!', '?');
                     return sArr;
                 }
                 else
@@ -84,7 +78,7 @@ namespace HomeWork_5
             }
 
             //Метод возвращает сообщение только с теми словами которые содеражть не более чем num букв
-            StringBuilder GetString(string s, int num)
+            public static StringBuilder GetString(string s, int num)
             {
                 string[] sArr;
                 sArr = ParseToArray(s);
@@ -109,7 +103,7 @@ namespace HomeWork_5
             }
 
             //Метод удаляет из предложения все слова заканчивающиеся на end
-            StringBuilder GetString(string s, string end)
+            public static StringBuilder GetString(string s, string end)
             {
                 string[] sArr;
                 sArr = ParseToArray(s);
@@ -126,7 +120,7 @@ namespace HomeWork_5
             }
 
             //Метод находит самое длинное слово в сообщении
-            string GetMinString(string s)
+            public static string GetMaxString(string s, int mod = -1)
             {
                 string[] sArr;
                 sArr = ParseToArray(s);
@@ -135,11 +129,29 @@ namespace HomeWork_5
 
                 foreach (var item in sArr)
                 {
-                    result = length > item.Length ? result : item;
+                    if (length < item.Length)
+                    {
+                        result = item;
+                        length = item.Length;
+                    }
+                }
+
+                if (mod == 1)
+                {
+                    result = String.Empty;
+                    foreach (var item in sArr)
+                    {
+                        if (length == item.Length)
+                        {
+                            result += item + " ";
+                        }
+                    }
                 }
                 return result;
             }
         }
+
+
 
         static void Main(string[] args)
         {
@@ -205,6 +217,16 @@ namespace HomeWork_5
              * Постараться разработать класс MyString.
              */
 
+            //string s = "Hello, world! Добро пожаловать в программу. Первое длинноеслово, второе длинноеслов0.";
+
+            //Console.WriteLine(MyString.GetString(s, 6));
+            //Console.WriteLine(MyString.GetString(s, "о"));
+            //Console.WriteLine(MyString.GetMaxString(s));
+            //Console.WriteLine(MyString.GetMaxString(s, 1));
+
+            #endregion
+
+            #region Третья задача
 
             #endregion
         }
