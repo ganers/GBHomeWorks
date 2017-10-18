@@ -151,7 +151,39 @@ namespace HomeWork_5
             }
         }
 
+        static bool isAnagramma(string s1, string s2)
+        {
+            if (s1.Length == s1.Length)
+            {
+                s1 = s1.Trim().ToLower();
+                s2 = s2.Trim().ToLower();
+                char[] s1Arr = s1.ToCharArray(0, s1.Length);
+                char[] s2Arr = s2.ToCharArray(0, s2.Length);
 
+                Array.Sort(s1Arr);
+                Array.Sort(s2Arr);
+
+                bool flag = false;
+
+                for (int i = 0; i < s1Arr.Length; i++)
+                {
+                    if (s1Arr[i] == s2Arr[i])
+                    {
+                        flag = true;
+                    }
+                    else
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                return flag;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -227,6 +259,24 @@ namespace HomeWork_5
             #endregion
 
             #region Третья задача
+            /*
+             * 3. *Для двух строк написать метод, определяющий, является ли одна строка перестановкой другой. Регистр можно не учитывать.
+             * а) с использованием методов C#
+             * б) *разработав собственный алгоритм
+             * Например: badc являются перестановкой abcd
+             */
+
+            string s1 = " hello ";
+            string s2 = "ehlol";
+
+            if (isAnagramma(s1, s2))
+            {
+                Console.WriteLine($"Строки {s1} и {s2} равны.");
+            }
+            else
+            {
+                Console.WriteLine($"Строки {s1} и {s2} не равны.");
+            }
 
             #endregion
         }
