@@ -8,31 +8,45 @@ namespace HomeWork_7
 {
     class Udvoitel
     {
-        int current;
-        int finish;
+        int current;    //текущее число
+        int finish;     //загаданое число
+        int step;       //кол-во пройденых шагов
+        int[] stepMemory = new int[0];  //все шаги по порядку
+        bool cheatGame;
 
-        public Udvoitel(int finish)
+        //public Udvoitel(int finish)
+        //{
+        //    this.finish = finish;
+        //    current = 1;
+        //}
+
+        public void InitGame(int finish)
         {
             this.finish = finish;
-            current = 1;
+            this.current = 1;
+            this.step = 0;
+            this.stepMemory = new int[0];
         }
 
         //Метод увеличивает число на 1
         public void CurrentAddOne()
         {
             current++;
+            step++;
         }
 
         //Метод увеличивает число в 2 раза
         public void CurrentMultiplyBy2()
         {
             current *= 2;
+            step++;
         }
 
         //Метод сбрасывает число до 1
         public void CurrentReset()
         {
             current = 1;
+            step++;
         }
 
         //Сво-во возвращает current
@@ -46,6 +60,11 @@ namespace HomeWork_7
         {
             get { return finish; }
         }
+
+        public int Step
+        {
+            get { return step; }
+        }
     }
 
     static class Program
@@ -56,11 +75,27 @@ namespace HomeWork_7
         [STAThread]
         static void Main()
         {
+            Udvoitel UObj = new Udvoitel();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
 
             #region Задача 1
+
+            //Form1 mainForm = new Form1();
+
+            //Random rand = new Random();
+
+            //int finish = rand.Next(1, 1000);
+
+            
+
+            //mainForm.numTarget.Text = Convert.ToString(UObj.Finish);
+            //mainForm.ShowDialog();
+
+
+
 
             //Random rand = new Random();
             //int finish = rand.Next(1, 1000);
