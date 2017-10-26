@@ -30,7 +30,6 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.новаяИграToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addOne = new System.Windows.Forms.Button();
             this.lbl1 = new System.Windows.Forms.Label();
@@ -43,6 +42,7 @@
             this.startGame = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.labelStep = new System.Windows.Forms.Label();
+            this.inMaxNum = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,23 +60,15 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.новаяИграToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(63, 24);
             this.toolStripMenuItem1.Text = "Меню";
             // 
-            // новаяИграToolStripMenuItem
-            // 
-            this.новаяИграToolStripMenuItem.Name = "новаяИграToolStripMenuItem";
-            this.новаяИграToolStripMenuItem.Size = new System.Drawing.Size(164, 26);
-            this.новаяИграToolStripMenuItem.Text = "Новая игра";
-            this.новаяИграToolStripMenuItem.Click += new System.EventHandler(this.новаяИграToolStripMenuItem_Click);
-            // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(164, 26);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
@@ -154,6 +146,7 @@
             this.btnBack.TabIndex = 12;
             this.btnBack.Text = "Назад";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // startGame
             // 
@@ -183,11 +176,19 @@
             this.labelStep.TabIndex = 16;
             this.labelStep.Text = "0";
             // 
+            // inMaxNum
+            // 
+            this.inMaxNum.Location = new System.Drawing.Point(220, 88);
+            this.inMaxNum.Name = "inMaxNum";
+            this.inMaxNum.Size = new System.Drawing.Size(100, 22);
+            this.inMaxNum.TabIndex = 17;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(373, 253);
+            this.Controls.Add(this.inMaxNum);
             this.Controls.Add(this.labelStep);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.startGame);
@@ -224,9 +225,9 @@
         public System.Windows.Forms.Label currentNum;
         public System.Windows.Forms.Button btnBack;
         public System.Windows.Forms.Button startGame;
-        public System.Windows.Forms.ToolStripMenuItem новаяИграToolStripMenuItem;
         public System.Windows.Forms.Label label1;
         public System.Windows.Forms.Label labelStep;
+        private System.Windows.Forms.TextBox inMaxNum;
     }
 }
 

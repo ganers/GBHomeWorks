@@ -12,7 +12,6 @@ namespace HomeWork_7
         int finish;     //загаданое число
         int step;       //кол-во пройденых шагов
         int[] stepMemory = new int[0];  //все шаги по порядку
-        bool cheatGame;
 
         //public Udvoitel(int finish)
         //{
@@ -33,6 +32,8 @@ namespace HomeWork_7
         {
             current++;
             step++;
+            Array.Resize(ref stepMemory, stepMemory.Length + 1);
+            stepMemory[step - 1] = current;
         }
 
         //Метод увеличивает число в 2 раза
@@ -40,6 +41,8 @@ namespace HomeWork_7
         {
             current *= 2;
             step++;
+            Array.Resize(ref stepMemory, stepMemory.Length + 1);
+            stepMemory[step - 1] = current;
         }
 
         //Метод сбрасывает число до 1
@@ -47,6 +50,17 @@ namespace HomeWork_7
         {
             current = 1;
             step++;
+            Array.Resize(ref stepMemory, stepMemory.Length + 1);
+            stepMemory[step - 1] = current;
+        }
+
+        public void BackStep()
+        {
+            if (step > 1)
+            {
+                step--;
+                current = stepMemory[step - 1];
+            }
         }
 
         //Сво-во возвращает current
@@ -65,6 +79,30 @@ namespace HomeWork_7
         {
             get { return step; }
         }
+
+        public bool isWin()
+        {
+            if (this.current == this.finish)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool isStop()
+        {
+            if (this.current > this.finish)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     static class Program
@@ -75,73 +113,11 @@ namespace HomeWork_7
         [STAThread]
         static void Main()
         {
-            Udvoitel UObj = new Udvoitel();
+            #region Задача 1
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-
-            #region Задача 1
-
-            //Form1 mainForm = new Form1();
-
-            //Random rand = new Random();
-
-            //int finish = rand.Next(1, 1000);
-
-            
-
-            //mainForm.numTarget.Text = Convert.ToString(UObj.Finish);
-            //mainForm.ShowDialog();
-
-
-
-
-            //Random rand = new Random();
-            //int finish = rand.Next(1, 1000);
-
-            //Udvoitel UObj = new Udvoitel(finish);
-
-            //for (int step = 0; UObj.Current <= finish; step++)
-            //{
-            //    Console.Clear();
-
-            //    if (UObj.Current == finish)
-            //    {
-            //        Console.WriteLine($"Вы победили за {step} шагов.\nКонечное число: {finish}\nВаше текущее число: {UObj.Current}");
-            //        break;
-            //    }
-
-            //    Console.WriteLine($"Конечное число: {finish}\nВаше текущее число: {UObj.Current}\nКоличество шагов: {step}");
-            //    Console.WriteLine("\nЕсли хотите добавить 1, введите 1\nЕсли хотите умножить на 2, введите 2\nЕсли хотите сбросить текущее значение, введите 0\n");
-
-            //    switch (Console.ReadLine())
-            //    {
-            //        case "1":
-            //            UObj.CurrentAddOne();
-            //            break;
-            //        case "2":
-            //            UObj.CurrentMultiplyBy2();
-            //            break;
-            //        case "0":
-            //            UObj.CurrentReset();
-            //            break;
-            //        default:
-            //            Console.WriteLine("Введенной комманды не существует.\nПо пробуйте снова.");
-            //            Console.WriteLine("Нажмите любую клавишу для продолжения.");
-            //            Console.ReadKey();
-
-            //            step--;
-            //            break;
-            //    }
-            //}
-
-            //if (UObj.Current > finish)
-            //{
-            //    Console.WriteLine($"Перебор!!!\nКонечное число: {finish}\nВаше текущее число: {UObj.Current}.\n");
-            //    Console.WriteLine("Нажмите любую клавишу для продолжения.");
-            //    Console.ReadKey();
-            //}
 
             #endregion
         }
