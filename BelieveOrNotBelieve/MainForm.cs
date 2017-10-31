@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace BelieveOrNotBelieve
 {
@@ -42,7 +43,7 @@ namespace BelieveOrNotBelieve
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 database = new TrueFalse(sfd.FileName);
-                database.Add("123", true);
+                database.Add("Введите вопрос", true);
                 database.Save();
                 nudNumber.Minimum = 1;
                 nudNumber.Maximum = 1;
@@ -58,10 +59,27 @@ namespace BelieveOrNotBelieve
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (nudNumber.Maximum == 1 || database == null) return;
-            database.Remove((int)nudNumber.Value);
-            nudNumber.Maximum--;
-            if (nudNumber.Value > 1) nudNumber.Value = nudNumber.Value;
+            string msg = "Вы уверены, что хотите удалить вопрос?";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result;
+
+            result = MessageBox.Show(msg, "Error Detected in Input", buttons);
+
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                if (nudNumber.Maximum == 1 || database == null) return;
+                database.Remove((int)nudNumber.Value-1);
+                nudNumber.Maximum--;
+                if (nudNumber.Value > 1) nudNumber.Value = nudNumber.Value;
+
+                if (nudNumber.Value >= 2)
+                {
+                    tboxQuestion.Text = database[(int)nudNumber.Value - 1].Text;
+                    cboxTrue.Checked = database[(int)nudNumber.Value - 1].TrueFalse;
+                }                
+            }
+
+            
         }
 
         private void miSave_Click(object sender, EventArgs e)
@@ -87,6 +105,27 @@ namespace BelieveOrNotBelieve
         {
             database[(int)nudNumber.Value - 1].Text = tboxQuestion.Text;
             database[(int)nudNumber.Value - 1].TrueFalse = cboxTrue.Checked;
+        }
+
+        private void miSaveAs_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            sfd.Filter = "Questions DB files (*.qst)|*.qst|All files (*.*)|*.*";
+            sfd.FilterIndex = 1;
+            sfd.RestoreDirectory = true;
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (database != null) database.SaveAs(sfd.FileName);
+                else MessageBox.Show("База данных не создана");
+            }
+        }
+
+        private void miAbaut_Click(object sender, EventArgs e)
+        {
+            string msg = "Игра \"Верю не Верю!\"\nАвтор: Алексеев Андрей.\n";
+            MessageBox.Show(msg);
         }
     }
 }

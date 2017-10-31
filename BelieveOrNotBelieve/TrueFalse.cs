@@ -72,6 +72,13 @@ namespace BelieveOrNotBelieve
             xmlFormat.Serialize(fStream, list);
             fStream.Close();
         }
+        public void SaveAs(string fileName)
+        {
+            XmlSerializer xmlFormat = new XmlSerializer(typeof(List<Question>));
+            Stream fStream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+            xmlFormat.Serialize(fStream, list);
+            fStream.Close();
+        }
         public void Load()
         {
             XmlSerializer xmlFormat = new XmlSerializer(typeof(List<Question>));

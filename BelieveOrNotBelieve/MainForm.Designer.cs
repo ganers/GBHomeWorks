@@ -31,10 +31,12 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.miSave = new System.Windows.Forms.ToolStripMenuItem();
             this.miOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAbaut = new System.Windows.Forms.ToolStripMenuItem();
             this.tboxQuestion = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -49,7 +51,8 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.miAbaut});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(592, 28);
@@ -62,6 +65,7 @@
             this.miNew,
             this.miOpen,
             this.miSave,
+            this.miSaveAs,
             this.toolStripSeparator1,
             this.miExit});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -71,35 +75,49 @@
             // miNew
             // 
             this.miNew.Name = "miNew";
-            this.miNew.Size = new System.Drawing.Size(181, 26);
+            this.miNew.Size = new System.Drawing.Size(135, 26);
             this.miNew.Text = "New";
             this.miNew.Click += new System.EventHandler(this.miNew_Click);
-            // 
-            // miSave
-            // 
-            this.miSave.Name = "miSave";
-            this.miSave.Size = new System.Drawing.Size(181, 26);
-            this.miSave.Text = "Save";
-            this.miSave.Click += new System.EventHandler(this.miSave_Click);
             // 
             // miOpen
             // 
             this.miOpen.Name = "miOpen";
-            this.miOpen.Size = new System.Drawing.Size(181, 26);
+            this.miOpen.Size = new System.Drawing.Size(135, 26);
             this.miOpen.Text = "Open";
             this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
+            // 
+            // miSave
+            // 
+            this.miSave.Name = "miSave";
+            this.miSave.Size = new System.Drawing.Size(135, 26);
+            this.miSave.Text = "Save";
+            this.miSave.Click += new System.EventHandler(this.miSave_Click);
+            // 
+            // miSaveAs
+            // 
+            this.miSaveAs.Name = "miSaveAs";
+            this.miSaveAs.Size = new System.Drawing.Size(135, 26);
+            this.miSaveAs.Text = "Save As";
+            this.miSaveAs.Click += new System.EventHandler(this.miSaveAs_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(178, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(132, 6);
             // 
             // miExit
             // 
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(181, 26);
+            this.miExit.Size = new System.Drawing.Size(135, 26);
             this.miExit.Text = "Exit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
+            // 
+            // miAbaut
+            // 
+            this.miAbaut.Name = "miAbaut";
+            this.miAbaut.Size = new System.Drawing.Size(116, 24);
+            this.miAbaut.Text = "О программе";
+            this.miAbaut.Click += new System.EventHandler(this.miAbaut_Click);
             // 
             // tboxQuestion
             // 
@@ -171,7 +189,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "Верю не верю!";
+            this.Text = "Редактор базы вопросов";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumber)).EndInit();
@@ -195,6 +213,8 @@
         private System.Windows.Forms.Button btnSaveQuest;
         private System.Windows.Forms.NumericUpDown nudNumber;
         private System.Windows.Forms.CheckBox cboxTrue;
+        private System.Windows.Forms.ToolStripMenuItem miSaveAs;
+        private System.Windows.Forms.ToolStripMenuItem miAbaut;
     }
 }
 
