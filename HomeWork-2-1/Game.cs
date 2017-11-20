@@ -57,7 +57,11 @@ namespace HomeWork_2_1
         static public void Draw()
         {
             // Проверяем вывод графики
-            buffer.Graphics.Clear(Color.Black);
+            //buffer.Graphics.Clear(Color.Black);
+
+            Image bgImg = Image.FromFile("space_bg.jpg");
+
+            buffer.Graphics.DrawImage(bgImg, 0,0, Width, Height);
             //buffer.Graphics.DrawRectangle(Pens.White, new Rectangle(100, 100, 200, 200));
             //buffer.Graphics.FillEllipse(Brushes.Wheat, new Rectangle(100, 100, 200, 200));
 
@@ -81,13 +85,13 @@ namespace HomeWork_2_1
         {
             Random rand = new Random();
 
-            objs = new BaseObject[60];
+            objs = new BaseObject[30];
 
-            for (int i = 0; i < objs.Length / 6; i++)
-                objs[i] = new BaseObject(new Point(rand.Next(600), rand.Next(30) * 20), new Point(-i, -i), new Size(10, 10));
+            //for (int i = 0; i < objs.Length / 6; i++)
+            //    objs[i] = new BaseObject(new Point(rand.Next(600), rand.Next(30) * 20), new Point(-i, -i), new Size(10, 10));
 
-            for (int i = objs.Length / 6; i < objs.Length; i++)
-                objs[i] = new Star(new Point(rand.Next(600), rand.Next(30) * 20), new Point(-i, i), new Size(5, 5));
+            for (int i = 0; i < objs.Length; i++)
+                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(1, 20), 0), new Size(5, 5));
 
             //for (int i = objs.Length / 2; i < objs.Length; i++)
             //    objs[i] = new SpaceStars(new Point(rand.Next(600), rand.Next(30) * 20), new Point(-i, 0), new Size(5, 5));

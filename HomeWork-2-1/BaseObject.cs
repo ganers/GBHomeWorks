@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace HomeWork_2_1
 {
-    class BaseObject
+    abstract class BaseObject
     {
         protected Point pos;
         protected Point dir;
