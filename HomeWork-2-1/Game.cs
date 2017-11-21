@@ -66,16 +66,14 @@ namespace HomeWork_2_1
             buffer.Graphics.DrawImage(bgImg, 0,0, Width, Height);
 
             foreach (BaseObject obj in objs)
-            {
                 obj.Draw();
-                buffer.Render();
-            }
 
             foreach (Asteroid obj in asteroid)
-            {
                 obj.Draw();
-                buffer.Render();
-            }
+
+            bullet.Draw();
+
+            buffer.Render();
 
         }
         /// <summary>
@@ -84,18 +82,22 @@ namespace HomeWork_2_1
         static public void Update()
         {
             foreach (BaseObject obj in objs)
-            {
                 obj.Update();
-            }
-        }
 
-        //-------------------------------------------------------------------------------
+            foreach (Asteroid obj in asteroid)
+                obj.Update();
+
+            bullet.Update();
+        }
+        /// <summary>
+        /// Метод загружает ............................................ ???
+        /// </summary>
         static public void Load()
         {
             Random rand = new Random();
             objs = new BaseObject[30];
             bullet = new Bullet(new Point(0,200), new Point(5,0), new Size(4,1));
-            asteroid = new Asteroid[3];
+            asteroid = new Asteroid[10];
 
 
             for (int i = 0; i < objs.Length / 2; i++)
@@ -106,7 +108,7 @@ namespace HomeWork_2_1
 
             for (int i = 0; i < asteroid.Length; i++)
             {
-                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(0, 10), 0), new Size(rand.Next(5, 25), rand.Next(5, 25)));
+                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(5, 15), rand.Next(-2, 2)), new Size(rand.Next(5, 50), rand.Next(5, 50)));
             }
         }
     }
