@@ -17,7 +17,9 @@ namespace HomeWork_2_1
 {
     class Game
     {
-        static public BaseObject[] objs;
+        static BaseObject[] objs;
+        static Asteroid[] asteroid;
+        static Bullet bullet;
 
         static BufferedGraphicsContext context;
         static public BufferedGraphics buffer;
@@ -54,24 +56,31 @@ namespace HomeWork_2_1
             Draw();
             Update();
         }
+        /// <summary>
+        /// Метод рисует все объекты на форме
+        /// </summary>
         static public void Draw()
         {
-            // Проверяем вывод графики
-            //buffer.Graphics.Clear(Color.Black);
-
+            //Рисуем задний фон
             Image bgImg = Image.FromFile("space_bg.jpg");
-
             buffer.Graphics.DrawImage(bgImg, 0,0, Width, Height);
-            //buffer.Graphics.DrawRectangle(Pens.White, new Rectangle(100, 100, 200, 200));
-            //buffer.Graphics.FillEllipse(Brushes.Wheat, new Rectangle(100, 100, 200, 200));
 
             foreach (BaseObject obj in objs)
             {
                 obj.Draw();
                 buffer.Render();
             }
-        }
 
+            foreach (Asteroid obj in asteroid)
+            {
+                obj.Draw();
+                buffer.Render();
+            }
+
+        }
+        /// <summary>
+        /// Метод обновляет информацию об объектах игры
+        /// </summary>
         static public void Update()
         {
             foreach (BaseObject obj in objs)
@@ -84,17 +93,21 @@ namespace HomeWork_2_1
         static public void Load()
         {
             Random rand = new Random();
-
             objs = new BaseObject[30];
+            bullet = new Bullet(new Point(0,200), new Point(5,0), new Size(4,1));
+            asteroid = new Asteroid[3];
 
-            //for (int i = 0; i < objs.Length / 6; i++)
-            //    objs[i] = new BaseObject(new Point(rand.Next(600), rand.Next(30) * 20), new Point(-i, -i), new Size(10, 10));
 
-            for (int i = 0; i < objs.Length; i++)
-                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(1, 20), 0), new Size(5, 5));
+            for (int i = 0; i < objs.Length / 2; i++)
+                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(1, 10), 0), new Size(3, 3));
 
-            //for (int i = objs.Length / 2; i < objs.Length; i++)
-            //    objs[i] = new SpaceStars(new Point(rand.Next(600), rand.Next(30) * 20), new Point(-i, 0), new Size(5, 5));
+            for (int i = objs.Length / 2; i < objs.Length; i++)
+                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(10, 20), 0), new Size(5, 5));
+
+            for (int i = 0; i < asteroid.Length; i++)
+            {
+                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(0, 10), 0), new Size(rand.Next(5, 25), rand.Next(5, 25)));
+            }
         }
     }
 }

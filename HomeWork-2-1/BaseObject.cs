@@ -7,30 +7,29 @@ using System.Drawing;
 
 namespace HomeWork_2_1
 {
+    /// <summary>
+    /// Базовый абстрактный класс объектов
+    /// </summary>
     abstract class BaseObject
     {
         protected Point pos;
         protected Point dir;
         protected Size size;
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="pos">Координаты объекта</param>
+        /// <param name="dir">Смещение объекта</param>
+        /// <param name="size">Размер объекта</param>
         public BaseObject(Point pos, Point dir, Size size)
         {
             this.pos = pos;
             this.dir = dir;
             this.size = size;
         }
-        public virtual void Draw()
-        {
-            Image starImg = Image.FromFile("star.gif");
+        public abstract void Draw();
 
-            Point ulC = new Point(pos.X, pos.Y);
-            Point urC = new Point(pos.X + 32, pos.Y + 24);
-            Point llC = new Point(pos.X, pos.Y + 24);
-            Point[] dest = { ulC, urC, llC };
-
-            Game.buffer.Graphics.DrawImage(starImg, dest);
-
-            //Game.buffer.Graphics.DrawEllipse(Pens.White, pos.X, pos.Y, size.Width, size.Height);
-        }
         public virtual void Update()
         {
             pos.X = pos.X + dir.X;
