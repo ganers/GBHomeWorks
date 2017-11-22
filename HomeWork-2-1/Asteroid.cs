@@ -16,7 +16,7 @@ namespace HomeWork_2_1
         }
         public override void Draw()
         {
-            Game.buffer.Graphics.FillEllipse(Brushes.White, pos.X, pos.Y, size.Width, size.Height);
+            Game.buffer.Graphics.FillEllipse(Brushes.Gray, pos.X, pos.Y, size.Width, size.Height);
         }
         public override void Update()
         {

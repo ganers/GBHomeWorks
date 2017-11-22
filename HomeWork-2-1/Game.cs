@@ -47,7 +47,7 @@ namespace HomeWork_2_1
             Load();
 
             Timer timer = new Timer();
-            timer.Interval = 100;
+            timer.Interval = 25;
             timer.Start();
             timer.Tick += Timer_Tick;
         }
@@ -90,25 +90,25 @@ namespace HomeWork_2_1
             bullet.Update();
         }
         /// <summary>
-        /// Метод загружает ............................................ ???
+        /// Метод загружает все объекты игры
         /// </summary>
         static public void Load()
         {
             Random rand = new Random();
             objs = new BaseObject[30];
-            bullet = new Bullet(new Point(0,200), new Point(5,0), new Size(4,1));
             asteroid = new Asteroid[10];
+            bullet = new Bullet(new Point(0,200), new Point(5,0), new Size(4,1));
 
 
             for (int i = 0; i < objs.Length / 2; i++)
-                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(1, 10), 0), new Size(3, 3));
+                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(1, 3), 0), new Size(3, 3));
 
             for (int i = objs.Length / 2; i < objs.Length; i++)
-                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(10, 20), 0), new Size(5, 5));
+                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(2, 5), 0), new Size(5, 5));
 
             for (int i = 0; i < asteroid.Length; i++)
             {
-                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(5, 15), rand.Next(-2, 2)), new Size(rand.Next(5, 50), rand.Next(5, 50)));
+                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), rand.Next(-2, 2)), new Size(rand.Next(5, 50), rand.Next(5, 50)));
             }
         }
     }

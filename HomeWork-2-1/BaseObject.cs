@@ -28,8 +28,13 @@ namespace HomeWork_2_1
             this.dir = dir;
             this.size = size;
         }
+        /// <summary>
+        /// Абстрактный метод для отрисовки объекта
+        /// </summary>
         public abstract void Draw();
-
+        /// <summary>
+        /// Метод обновляет расположение объекта на форме
+        /// </summary>
         public virtual void Update()
         {
             pos.X = pos.X + dir.X;

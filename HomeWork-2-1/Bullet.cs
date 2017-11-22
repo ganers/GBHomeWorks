@@ -16,11 +16,11 @@ namespace HomeWork_2_1
 
         public override void Draw()
         {
-            Game.buffer.Graphics.DrawRectangle(Pens.Blue, pos.X, pos.Y, size.Width, size.Height);
+            Game.buffer.Graphics.DrawRectangle(Pens.Red, pos.X, pos.Y, size.Width, size.Height);
         }
         public override void Update()
         {
-            pos.X = pos.X + 3;
+            pos.X = pos.X + 5;
         }
     }
 }
