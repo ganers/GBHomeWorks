@@ -1,24 +1,25 @@
 ﻿using System;
-namespace Interface_sample
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace HomeWork_2_1
 {
-    public interface IEnumerator
-    {
-        bool MoveNext();
-        object Current { get; }
-    }
-    internal class Countdown : IEnumerator
-    {
-        int count = 11;
-        public bool MoveNext() { return count-- > 0; }
-        public object Current { get { return count; } }
-    }
+
     class Program
     {
+        public delegate int MyDelegate(int x, int y);
+
+        public void MyMethod(Random random, MyDelegate myDelegate)
+        {
+
+        }
+
         static void Main(string[] args)
         {
-            IEnumerator e = new Countdown();
-            while (e.MoveNext())
-                Console.Write(e.Current); // 109876543210
+            Console.WriteLine("Hello!!!");
         }
     }
 }

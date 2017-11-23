@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cshlvl1", "cshlvl1\cshlvl1.csproj", "{7A49782D-DC88-4970-8745-D9E494DD8FC9}"
 EndProject
@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Csh-Lvl-2", "Csh-Lvl-2", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Csh-Lvl-1", "Csh-Lvl-1", "{6D489573-EDCD-47B1-8F60-A6C1960385AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson-1", "Lesson-1\Lesson-1.csproj", "{A34F067F-D0CB-485F-BF62-9C9B91857896}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Lesson-1\Main.csproj", "{A34F067F-D0CB-485F-BF62-9C9B91857896}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWork-2-1", "HomeWork-2-1\HomeWork-2-1.csproj", "{264BB1AE-BC87-4773-AFCF-BA5E95DE031F}"
 EndProject

@@ -73,7 +73,7 @@ namespace HomeWork_2_1
                 else
                 {
                     Width = form.Width;
-                    Height = form.Height - 46;  // 46 - поправка высоты на панель формы
+                    Height = form.Height;
                 }
             }
             catch (GameObjectException)
@@ -81,7 +81,7 @@ namespace HomeWork_2_1
 
                 MessageBox.Show("Неправильно задан размер формы.\nРамзер будет задан по умолчанию 800x600.");
                 Width = 800;
-                Height = 600-46;    // 46 - поправка высоты на панель формы
+                Height = 600;
                 form.Width = 800;
                 form.Height = 600;
             }
