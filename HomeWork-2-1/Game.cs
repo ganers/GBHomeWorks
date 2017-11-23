@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Media;
 /*
  * Домашняя Работа АНДРЕЙ АЛЕКСЕЕВ
  * 
@@ -20,6 +21,8 @@ namespace HomeWork_2_1
         static BaseObject[] objs;
         static Asteroid[] asteroid;
         static Bullet bullet;
+        static Image bgImg;
+        //static SoundPlayer bgMusic;
 
         static BufferedGraphicsContext context;
         static public BufferedGraphics buffer;
@@ -30,27 +33,90 @@ namespace HomeWork_2_1
         static Game()
         {
         }
+        /// <summary>
+        /// Метод проверяет на соответствие требованиям размера формы
+        /// </summary>
+        /// <param name="width">Ширина формы</param>
+        /// <param name="height">Высота формы</param>
+        /// <returns></returns>
+        static public bool VerifyFormSize(int width, int height)
+        {
+            if (width > 1000 || height > 1000 || width < 0 || height < 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        /// <summary>
+        /// Метод инициализации игры
+        /// </summary>
+        /// <param name="form">Форма для игры</param>
         static public void Init(Form form)
         {
             // Графическое устройство для вывода графики
             Graphics g;
             // предоставляет доступ к главному буферу графического контекста для текущего приложения
             context = BufferedGraphicsManager.Current;
-            g = form.CreateGraphics(); // Создаём объект - поверхность рисования и связываем его с формой
-                                       // Запоминаем размеры формы
-            Width = form.Width;
-            Height = form.Height;
+            // Создаём объект - поверхность рисования и связываем его с формой
+            g = form.CreateGraphics();
+
+            // Запоминаем размеры формы
+            try
+            {
+                if (!VerifyFormSize(form.Width, form.Height))
+                {
+                    throw new GameObjectException();
+                }
+                else
+                {
+                    Width = form.Width;
+                    Height = form.Height - 46;  // 46 - поправка высоты на панель формы
+                }
+            }
+            catch (GameObjectException)
+            {
+
+                MessageBox.Show("Неправильно задан размер формы.\nРамзер будет задан по умолчанию 800x600.");
+                Width = 800;
+                Height = 600-46;    // 46 - поправка высоты на панель формы
+                form.Width = 800;
+                form.Height = 600;
+            }
+
             // Связываем буфер в памяти с графическим объектом.
             // для того, чтобы рисовать в буфере
             buffer = context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
+            //Загружаем объекты игры
             Load();
 
+            //Загружаем задний фон игры
+            bgImg = Image.FromFile("space_bg.jpg");
+
+            //Фоновый звук игры
+            //bgMusic = new SoundPlayer("sounds/music.wav");
+            //bgMusic.Play();
+
+            //Таймер запуска отрисовки и обновления
             Timer timer = new Timer();
             timer.Interval = 25;
             timer.Start();
             timer.Tick += Timer_Tick;
+
+            //Обработка клика мыши по форме
+            form.MouseClick += Mouse_Click;
+
+
         }
+
+        private static void Mouse_Click(object sender, MouseEventArgs e)
+        {
+            bullet.UpdateAfterMouseClick(e.X, e.Y);
+        }
+
         private static void Timer_Tick(object sender, EventArgs e)
         {
             Draw();
@@ -62,8 +128,7 @@ namespace HomeWork_2_1
         static public void Draw()
         {
             //Рисуем задний фон
-            Image bgImg = Image.FromFile("space_bg.jpg");
-            buffer.Graphics.DrawImage(bgImg, 0,0, Width, Height);
+            buffer.Graphics.DrawImage(bgImg, 0, 0, Width, Height);
 
             foreach (BaseObject obj in objs)
                 obj.Draw();
@@ -74,7 +139,6 @@ namespace HomeWork_2_1
             bullet.Draw();
 
             buffer.Render();
-
         }
         /// <summary>
         /// Метод обновляет информацию об объектах игры
@@ -85,7 +149,16 @@ namespace HomeWork_2_1
                 obj.Update();
 
             foreach (Asteroid obj in asteroid)
+            {
                 obj.Update();
+                //Обработка столкновений астероида с пулей
+                if (obj.Collision(bullet))
+                {
+                    SystemSounds.Beep.Play();
+                    obj.UpdateAfterCollision();
+                    bullet.UpdateAfterCollision();
+                }
+            }
 
             bullet.Update();
         }
@@ -95,7 +168,7 @@ namespace HomeWork_2_1
         static public void Load()
         {
             Random rand = new Random();
-            objs = new BaseObject[30];
+            objs = new BaseObject[60];
             asteroid = new Asteroid[10];
             bullet = new Bullet(new Point(0,200), new Point(5,0), new Size(4,1));
 
@@ -108,7 +181,7 @@ namespace HomeWork_2_1
 
             for (int i = 0; i < asteroid.Length; i++)
             {
-                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), rand.Next(-2, 2)), new Size(rand.Next(5, 50), rand.Next(5, 50)));
+                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), rand.Next(-1, 1)), new Size(rand.Next(15, 50), rand.Next(15, 50)));
             }
         }
     }

@@ -10,7 +10,7 @@ namespace HomeWork_2_1
     /// <summary>
     /// Базовый абстрактный класс объектов
     /// </summary>
-    abstract class BaseObject
+    abstract class BaseObject:IColission
     {
         protected Point pos;
         protected Point dir;
@@ -29,20 +29,29 @@ namespace HomeWork_2_1
             this.size = size;
         }
         /// <summary>
-        /// Абстрактный метод для отрисовки объекта
+        /// Прямоугольная область которую занимает объект
+        /// </summary>
+        public Rectangle Rect
+        {
+            get { return new Rectangle(pos, size); }
+        }
+        /// <summary>
+        /// Метод возвращает true если объект пересекается с obj и fslse если не пересекается
+        /// </summary>
+        /// <param name="obj">Объект для проверки</param>
+        /// <returns></returns>
+        public bool Collision(IColission obj)
+        {
+            if (obj.Rect.IntersectsWith(this.Rect)) return true; else return false;
+        }
+
+        /// <summary>
+        /// Метод задает вид и форму объекта
         /// </summary>
         public abstract void Draw();
         /// <summary>
-        /// Метод обновляет расположение объекта на форме
+        /// Метод обновляет позицию объекта на форме
         /// </summary>
-        public virtual void Update()
-        {
-            pos.X = pos.X + dir.X;
-            pos.Y = pos.Y + dir.Y;
-            if (pos.X < 0) dir.X = -dir.X;
-            if (pos.X > Game.Width) dir.X = -dir.X;
-            if (pos.Y < 0) dir.Y = -dir.Y;
-            if (pos.Y > Game.Height) dir.Y = -dir.Y;
-        }
+        public abstract void Update();
     }
 }

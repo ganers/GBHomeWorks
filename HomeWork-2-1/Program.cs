@@ -19,7 +19,7 @@ namespace HomeWork_2_1
             //Application.Run(new Form1());
 
             Form form = new Form();
-            form.Width = 800;
+            form.Width = 1000;
             form.Height = 600;
             Game.Init(form);
             form.Show();

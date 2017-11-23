@@ -12,12 +12,17 @@ namespace HomeWork_2_1
         public Star(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
         }
-
+        /// <summary>
+        /// Метод задает вид и форму объекта
+        /// </summary>
         public override void Draw()
         {
             Game.buffer.Graphics.DrawLine(Pens.White, pos.X, pos.Y, pos.X + size.Width, pos.Y + size.Height);
             Game.buffer.Graphics.DrawLine(Pens.White, pos.X + size.Width, pos.Y, pos.X, pos.Y + size.Height);
         }
+        /// <summary>
+        /// Метод обновляет позицию объекта
+        /// </summary>
         public override void Update()
         {
             pos.X = pos.X - dir.X;
