@@ -12,6 +12,8 @@ namespace HomeWork_2_1
     /// </summary>
     abstract class BaseObject:IColission
     {
+        public delegate void Message();
+
         protected Point pos;
         protected Point dir;
         protected Size size;

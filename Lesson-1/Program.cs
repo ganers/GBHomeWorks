@@ -10,9 +10,14 @@ namespace HomeWork_2_1
 
     class Program
     {
-        public delegate int MyDelegate(int x, int y);
+        public delegate void MyPrint(string str);
 
-        public void MyMethod(Random random, MyDelegate myDelegate)
+        public void PrinConsole(string str)
+        {
+
+        }
+
+        public void PrintMsg(string str, MyPrint myDelegate)
         {
 
         }

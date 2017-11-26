@@ -30,11 +30,6 @@ namespace HomeWork_2_1
             {
                 pos.X = pos.X + 3;
             }
-            else
-            {
-                pos.X = -size.Width;
-                pos.Y = rand.Next(50, Game.Height - 50);
-            }
         }
         /// <summary>
         /// Метод обновляет позицию объекта после столкновения

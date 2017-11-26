@@ -22,6 +22,10 @@ namespace HomeWork_2_1
         static Asteroid[] asteroid;
         static Bullet bullet;
         static Image bgImg;
+        static Ship ship;
+        static Aidkit[] aidKits;
+        static Random rnd = new Random();
+        private static Timer timer = new Timer();
         //static SoundPlayer bgMusic;
 
         static BufferedGraphicsContext context;
@@ -101,21 +105,37 @@ namespace HomeWork_2_1
             //bgMusic.Play();
 
             //Таймер запуска отрисовки и обновления
-            Timer timer = new Timer();
             timer.Interval = 25;
             timer.Start();
             timer.Tick += Timer_Tick;
 
             //Обработка клика мыши по форме
-            form.MouseClick += Mouse_Click;
+            //form.MouseClick += Mouse_Click;
 
+            form.KeyDown += Form_KeyDown;
+
+            ship.MessageDie += Finish;
 
         }
 
-        private static void Mouse_Click(object sender, MouseEventArgs e)
+        public static void Finish()
         {
-            bullet.UpdateAfterMouseClick(e.X, e.Y);
+            timer.Stop();
+            buffer.Graphics.DrawString($"The END.", new Font(FontFamily.GenericSansSerif, 60, FontStyle.Underline), Brushes.White, 200, 100);
+            buffer.Render();
         }
+
+        private static void Form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey) bullet = new Bullet(new Point(ship.Rect.X + 10, ship.Rect.Y + 4), new Point(4, 0), new Size(4, 1));
+            if (e.KeyCode == Keys.Up) ship.Up();
+            if (e.KeyCode == Keys.Down) ship.Down();
+        }
+
+        //private static void Mouse_Click(object sender, MouseEventArgs e)
+        //{
+        //    bullet.UpdateAfterMouseClick(e.X, e.Y);
+        //}
 
         private static void Timer_Tick(object sender, EventArgs e)
         {
@@ -133,10 +153,16 @@ namespace HomeWork_2_1
             foreach (BaseObject obj in objs)
                 obj.Draw();
 
-            foreach (Asteroid obj in asteroid)
+            foreach (Aidkit obj in aidKits)
                 obj.Draw();
 
-            bullet.Draw();
+            foreach (Asteroid obj in asteroid)
+                obj?.Draw();
+
+            bullet?.Draw();
+            ship?.Draw();
+            if (ship != null)
+                buffer.Graphics.DrawString($"Energy: {ship.Energy}\nPoints: {ship.Point}", SystemFonts.DefaultFont, Brushes.White, 0, 0);
 
             buffer.Render();
         }
@@ -148,19 +174,31 @@ namespace HomeWork_2_1
             foreach (BaseObject obj in objs)
                 obj.Update();
 
-            foreach (Asteroid obj in asteroid)
-            {
+            foreach (Aidkit obj in aidKits)
                 obj.Update();
-                //Обработка столкновений астероида с пулей
-                if (obj.Collision(bullet))
+
+            bullet?.Update();
+
+            for (int i = 0; i < asteroid.Length; i++)
+            {
+                if (asteroid[i] == null) continue;
+                asteroid[i].Update();
+
+                if (bullet != null && bullet.Collision(asteroid[i]))
                 {
-                    SystemSounds.Beep.Play();
-                    obj.UpdateAfterCollision();
-                    bullet.UpdateAfterCollision();
+                    SystemSounds.Hand.Play();
+                    asteroid[i] = null;
+                    bullet = null;
+                    ship.Point++;
+                    continue;
                 }
+                if (!ship.Collision(asteroid[i])) continue;
+                ship?.EnergyLow(rnd.Next(1, 10));
+                SystemSounds.Asterisk.Play();
+                if (ship.Energy <= 0) ship?.Die();
             }
 
-            bullet.Update();
+            //bullet.Update();
         }
         /// <summary>
         /// Метод загружает все объекты игры
@@ -168,9 +206,10 @@ namespace HomeWork_2_1
         static public void Load()
         {
             Random rand = new Random();
+            ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(10, 10));
             objs = new BaseObject[60];
             asteroid = new Asteroid[10];
-            bullet = new Bullet(new Point(0,200), new Point(5,0), new Size(4,1));
+            aidKits = new Aidkit[3];
 
 
             for (int i = 0; i < objs.Length / 2; i++)
@@ -183,6 +222,9 @@ namespace HomeWork_2_1
             {
                 asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), rand.Next(-1, 1)), new Size(rand.Next(15, 50), rand.Next(15, 50)));
             }
+
+            for (int i = 0; i < aidKits.Length; i++)
+                aidKits[i] = new Aidkit(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), 0), new Size(15, 15));
         }
     }
 }
