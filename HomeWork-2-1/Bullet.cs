@@ -28,7 +28,7 @@ namespace HomeWork_2_1
         {
             if (pos.X < Game.Width + size.Width)
             {
-                pos.X = pos.X + 3;
+                pos.X = pos.X + 5;
             }
         }
         /// <summary>

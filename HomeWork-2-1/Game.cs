@@ -130,6 +130,8 @@ namespace HomeWork_2_1
             if (e.KeyCode == Keys.ControlKey) bullet = new Bullet(new Point(ship.Rect.X + 10, ship.Rect.Y + 4), new Point(4, 0), new Size(4, 1));
             if (e.KeyCode == Keys.Up) ship.Up();
             if (e.KeyCode == Keys.Down) ship.Down();
+            if (e.KeyCode == Keys.Left) ship.Left();
+            if (e.KeyCode == Keys.Right) ship.Right();
         }
 
         //private static void Mouse_Click(object sender, MouseEventArgs e)
@@ -154,7 +156,7 @@ namespace HomeWork_2_1
                 obj.Draw();
 
             foreach (Aidkit obj in aidKits)
-                obj.Draw();
+                obj?.Draw();
 
             foreach (Asteroid obj in asteroid)
                 obj?.Draw();
@@ -175,7 +177,7 @@ namespace HomeWork_2_1
                 obj.Update();
 
             foreach (Aidkit obj in aidKits)
-                obj.Update();
+                obj?.Update();
 
             bullet?.Update();
 
@@ -196,6 +198,16 @@ namespace HomeWork_2_1
                 ship?.EnergyLow(rnd.Next(1, 10));
                 SystemSounds.Asterisk.Play();
                 if (ship.Energy <= 0) ship?.Die();
+            }
+
+            for (int i = 0; i < aidKits.Length; i++)
+            {
+                if (aidKits[i] == null) continue;
+                if (ship.Collision(aidKits[i]))
+                {
+                    ship.EnergyUp(rnd.Next(10, 50));
+                    aidKits[i] = null;
+                }
             }
 
             //bullet.Update();
@@ -220,7 +232,7 @@ namespace HomeWork_2_1
 
             for (int i = 0; i < asteroid.Length; i++)
             {
-                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), rand.Next(-1, 1)), new Size(rand.Next(15, 50), rand.Next(15, 50)));
+                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), 0), new Size(rand.Next(15, 50), rand.Next(15, 50)));
             }
 
             for (int i = 0; i < aidKits.Length; i++)
