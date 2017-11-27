@@ -19,7 +19,10 @@ namespace HomeWork_2_1
     class Game
     {
         static BaseObject[] objs;
-        static Asteroid[] asteroid;
+        static List<Asteroid> asteroid;
+        static int asteroidCount = 10;
+        static int asteroidInGame;
+        static int wave = 1;
         static Bullet bullet;
         static Image bgImg;
         static Ship ship;
@@ -37,6 +40,7 @@ namespace HomeWork_2_1
         static Game()
         {
         }
+
         /// <summary>
         /// Метод проверяет на соответствие требованиям размера формы
         /// </summary>
@@ -45,14 +49,7 @@ namespace HomeWork_2_1
         /// <returns></returns>
         static public bool VerifyFormSize(int width, int height)
         {
-            if (width > 1000 || height > 1000 || width < 0 || height < 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            if (width > 1000 || height > 1000 || width < 0 || height < 0) return false; else return true;
         }
         /// <summary>
         /// Метод инициализации игры
@@ -164,7 +161,7 @@ namespace HomeWork_2_1
             bullet?.Draw();
             ship?.Draw();
             if (ship != null)
-                buffer.Graphics.DrawString($"Energy: {ship.Energy}\nPoints: {ship.Point}", SystemFonts.DefaultFont, Brushes.White, 0, 0);
+                buffer.Graphics.DrawString($"Energy: {ship.Energy}\nPoints: {ship.Point}\nAsteroid: {asteroidInGame}", SystemFonts.DefaultFont, Brushes.White, 0, 0);
 
             buffer.Render();
         }
@@ -181,24 +178,39 @@ namespace HomeWork_2_1
 
             bullet?.Update();
 
-            for (int i = 0; i < asteroid.Length; i++)
+            if (asteroid.Count != 0)
             {
-                if (asteroid[i] == null) continue;
-                asteroid[i].Update();
-
-                if (bullet != null && bullet.Collision(asteroid[i]))
+                for (int i = 0; i < asteroid.Count; i++)
                 {
-                    SystemSounds.Hand.Play();
-                    asteroid[i] = null;
-                    bullet = null;
-                    ship.Point++;
-                    continue;
+                    asteroid[i].Update();
+
+                    if (bullet != null && bullet.Collision(asteroid[i]))
+                    {
+                        SystemSounds.Hand.Play();
+                        asteroid.RemoveAt(i);
+                        bullet = null;
+                        ship.Point++;
+                        asteroidInGame--;
+                        continue;
+                    }
+                    if (!ship.Collision(asteroid[i])) continue;
+                    ship?.EnergyLow(rnd.Next(1, 10));
+                    SystemSounds.Asterisk.Play();
+                    if (ship.Energy <= 0) ship?.Die();
                 }
-                if (!ship.Collision(asteroid[i])) continue;
-                ship?.EnergyLow(rnd.Next(1, 10));
-                SystemSounds.Asterisk.Play();
-                if (ship.Energy <= 0) ship?.Die();
             }
+            else
+            {
+                wave++;
+                asteroidCount++;
+                asteroidInGame = asteroidCount;
+                for (int i = 0; i < asteroidCount; i++)
+                {
+                    asteroid.Add(new Asteroid(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(100, Game.Height - 100)), new Point(wave, 0), new Size(rnd.Next(15, 50), rnd.Next(15, 50))));
+                }
+            }
+
+            
 
             for (int i = 0; i < aidKits.Length; i++)
             {
@@ -217,26 +229,26 @@ namespace HomeWork_2_1
         /// </summary>
         static public void Load()
         {
-            Random rand = new Random();
+            asteroid = new List<Asteroid>();
             ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(10, 10));
             objs = new BaseObject[60];
-            asteroid = new Asteroid[10];
             aidKits = new Aidkit[3];
+            asteroidInGame = asteroidCount;
 
 
             for (int i = 0; i < objs.Length / 2; i++)
-                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(1, 3), 0), new Size(3, 3));
+                objs[i] = new Star(new Point(rnd.Next(Width), rnd.Next(Height)), new Point(rnd.Next(1, 3), 0), new Size(3, 3));
 
             for (int i = objs.Length / 2; i < objs.Length; i++)
-                objs[i] = new Star(new Point(rand.Next(Width), rand.Next(Height)), new Point(rand.Next(2, 5), 0), new Size(5, 5));
+                objs[i] = new Star(new Point(rnd.Next(Width), rnd.Next(Height)), new Point(rnd.Next(2, 5), 0), new Size(5, 5));
 
-            for (int i = 0; i < asteroid.Length; i++)
+            for (int i = 0; i < asteroidCount; i++)
             {
-                asteroid[i] = new Asteroid(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), 0), new Size(rand.Next(15, 50), rand.Next(15, 50)));
+                asteroid.Add(new Asteroid(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(100, Game.Height - 100)), new Point(1, 0), new Size(rnd.Next(15, 50), rnd.Next(15, 50))));
             }
 
             for (int i = 0; i < aidKits.Length; i++)
-                aidKits[i] = new Aidkit(new Point(rand.Next(Game.Width) + Game.Width, rand.Next(Game.Height)), new Point(rand.Next(1, 3), 0), new Size(15, 15));
+                aidKits[i] = new Aidkit(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(Game.Height)), new Point(rnd.Next(1, 3), 0), new Size(15, 15));
         }
     }
 }

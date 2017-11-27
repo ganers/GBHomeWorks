@@ -11,10 +11,14 @@ namespace HomeWork_2_1
     {
         Random rand = new Random();
         public int Power { get; set; }
+        public int ScoreForDestruction { get; set; }
+        public Point Speed { get; set; }
 
         public Asteroid(Point pos, Point dir, Size size):base(pos, dir, size)
         {
             Power = 1;
+            ScoreForDestruction = 1;
+            Speed = dir;
         }
         /// <summary>
         /// Метод задает вид и форму объекта
