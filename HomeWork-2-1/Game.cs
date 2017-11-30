@@ -18,25 +18,39 @@ namespace HomeWork_2_1
 {
     class Game
     {
-        static BaseObject[] objs;
-        static List<Asteroid> asteroid;
+        //Флаги нажатия клавиш
+        static bool keyUpFlag = true;
+        static bool keyDownFlag = true;
+        static bool keyLeftFlag = true;
+        static bool keyRightFlag = true;
+        static bool pausedFlag = false;
+
+        //Параметры игры
+        static int aidKitsCount = 2;
         static int asteroidCount = 10;
         static int asteroidInGame;
-        static int wave = 1;
-        static Bullet bullet;
-        static Image bgImg;
-        static Ship ship;
-        static Aidkit[] aidKits;
-        static Random rnd = new Random();
-        private static Timer timer = new Timer();
-        //static SoundPlayer bgMusic;
-
-        static BufferedGraphicsContext context;
-        static public BufferedGraphics buffer;
-        // Свойства
+        static int bulletMax = 10;
+        static int gameWave = 1;
+        static int paddingRight = 200;  //отступ от правой границы для текста с подсказками
         // Ширина и высота игрового поля
         static public int Width { get; set; }
         static public int Height { get; set; }
+
+        static BufferedGraphicsContext context;
+        static public BufferedGraphics buffer;
+        static BaseObject[] objs;
+        static List<Asteroid> asteroid;
+        static List<Bullet> bullet;
+        static Image bgImg;
+        static Ship ship;
+        static List<Aidkit> aidKits;
+        //static SoundPlayer bgMusic;
+
+        //Вспомогательные переменные
+        static Random rnd = new Random();
+        private static Timer timer = new Timer();
+
+        
         static Game()
         {
         }
@@ -95,7 +109,7 @@ namespace HomeWork_2_1
             Load();
 
             //Загружаем задний фон игры
-            bgImg = Image.FromFile("space_bg.jpg");
+            bgImg = Image.FromFile("pictures/space_bg.jpg");
 
             //Фоновый звук игры
             //bgMusic = new SoundPlayer("sounds/music.wav");
@@ -106,40 +120,88 @@ namespace HomeWork_2_1
             timer.Start();
             timer.Tick += Timer_Tick;
 
-            //Обработка клика мыши по форме
-            //form.MouseClick += Mouse_Click;
-
             form.KeyDown += Form_KeyDown;
+
+            form.KeyUp += Form_KeyUp;
 
             ship.MessageDie += Finish;
 
         }
-
+        /// <summary>
+        /// Метод ставит на паузу или снимает с паузы игру
+        /// </summary>
+        /// <param name="pausedFlag">Если true ставим на паузу, иначе снимаем</param>
+        public static void Paused(bool pausedFlag)
+        {
+            if (pausedFlag)
+            {
+                timer.Stop();
+                buffer.Graphics.DrawString($"PAUSED.", new Font(FontFamily.GenericSansSerif, 60, FontStyle.Underline), Brushes.White, 200, 100);
+                buffer.Render();
+            }
+            else
+            {
+                timer.Start();
+            }
+            
+        }
+        /// <summary>
+        /// Метод завершает игру
+        /// </summary>
         public static void Finish()
         {
             timer.Stop();
             buffer.Graphics.DrawString($"The END.", new Font(FontFamily.GenericSansSerif, 60, FontStyle.Underline), Brushes.White, 200, 100);
             buffer.Render();
         }
-
+        /// <summary>
+        /// Метод обработки события нажатия клавиш
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void Form_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey) bullet = new Bullet(new Point(ship.Rect.X + 10, ship.Rect.Y + 4), new Point(4, 0), new Size(4, 1));
-            if (e.KeyCode == Keys.Up) ship.Up();
-            if (e.KeyCode == Keys.Down) ship.Down();
-            if (e.KeyCode == Keys.Left) ship.Left();
-            if (e.KeyCode == Keys.Right) ship.Right();
+            if (e.KeyCode == Keys.ControlKey && bullet.Count < bulletMax) bullet.Add(new Bullet(new Point(ship.Rect.X + 10, ship.Rect.Y + 4), new Point(4, 0), new Size(4, 1)));
+            if (e.KeyCode == Keys.Up) keyUpFlag = false;
+            if (e.KeyCode == Keys.Down) keyDownFlag = false;
+            if (e.KeyCode == Keys.Left) keyLeftFlag = false;
+            if (e.KeyCode == Keys.Right) keyRightFlag = false;
+            if (e.KeyCode == Keys.Escape) Application.Exit();
+            if (e.KeyCode == Keys.P)
+            {
+                if (!pausedFlag)
+                {
+                    pausedFlag = true;
+                    Paused(pausedFlag);
+                }
+                else
+                {
+                    pausedFlag = false;
+                    Paused(pausedFlag);
+                }
+            }
         }
-
-        //private static void Mouse_Click(object sender, MouseEventArgs e)
-        //{
-        //    bullet.UpdateAfterMouseClick(e.X, e.Y);
-        //}
-
+        /// <summary>
+        /// Метод обработки события отпускания клавиш
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void Form_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up) keyUpFlag = true;
+            if (e.KeyCode == Keys.Down) keyDownFlag = true;
+            if (e.KeyCode == Keys.Left) keyLeftFlag = true;
+            if (e.KeyCode == Keys.Right) keyRightFlag = true;
+        }
+        /// <summary>
+        /// Метод обработки таймера
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void Timer_Tick(object sender, EventArgs e)
         {
             Draw();
-            Update();
+            Update();            
         }
         /// <summary>
         /// Метод рисует все объекты на форме
@@ -158,10 +220,14 @@ namespace HomeWork_2_1
             foreach (Asteroid obj in asteroid)
                 obj?.Draw();
 
-            bullet?.Draw();
+            foreach (Bullet obj in bullet)
+                obj?.Draw();
+
             ship?.Draw();
             if (ship != null)
-                buffer.Graphics.DrawString($"Energy: {ship.Energy}\nPoints: {ship.Point}\nAsteroid: {asteroidInGame}", SystemFonts.DefaultFont, Brushes.White, 0, 0);
+                buffer.Graphics.DrawString($"Energy: {ship.Energy}\nPoints: {ship.Point}\nAsteroid: {asteroidInGame}\nWave: {gameWave}", SystemFonts.DefaultFont, Brushes.White, 0, 0);
+
+            buffer.Graphics.DrawString($"Пауза: \"P\".\nВыход из игры: \"ESC\".", SystemFonts.DefaultFont, Brushes.White, Game.Width-paddingRight, 0);
 
             buffer.Render();
         }
@@ -170,59 +236,76 @@ namespace HomeWork_2_1
         /// </summary>
         static public void Update()
         {
+            bool currentAsteroid;
+
             foreach (BaseObject obj in objs)
                 obj.Update();
 
             foreach (Aidkit obj in aidKits)
                 obj?.Update();
 
-            bullet?.Update();
+            for (int i = 0; i < bullet.Count; i++)
+            {
+                if (bullet[i].InField()) bullet[i].Update(); else bullet.RemoveAt(i);
+            }
 
             if (asteroid.Count != 0)
             {
+                currentAsteroid = true;
+
                 for (int i = 0; i < asteroid.Count; i++)
                 {
                     asteroid[i].Update();
 
-                    if (bullet != null && bullet.Collision(asteroid[i]))
+                    for (int j = 0; j < bullet.Count; j++)
                     {
-                        SystemSounds.Hand.Play();
-                        asteroid.RemoveAt(i);
-                        bullet = null;
-                        ship.Point++;
-                        asteroidInGame--;
-                        continue;
+                        if (bullet[j].Collision(asteroid[i]))
+                        {
+                            currentAsteroid = false;
+                            SystemSounds.Hand.Play();
+                            ship.Point += gameWave * asteroid[i].ScoreForDestruction;
+                            asteroidInGame--;
+                            asteroid.RemoveAt(i);
+                            bullet.RemoveAt(j);
+                            break;
+                        }
                     }
-                    if (!ship.Collision(asteroid[i])) continue;
-                    ship?.EnergyLow(rnd.Next(1, 10));
-                    SystemSounds.Asterisk.Play();
-                    if (ship.Energy <= 0) ship?.Die();
+
+                    if (currentAsteroid)
+                    {
+                        if (ship.Collision(asteroid[i]))
+                        {
+                            ship?.EnergyLow(rnd.Next(1, 10));
+                            SystemSounds.Asterisk.Play();
+                            if (ship.Energy <= 0) ship?.Die();
+                        }
+                    }
                 }
             }
             else
             {
-                wave++;
+                gameWave++;
                 asteroidCount++;
                 asteroidInGame = asteroidCount;
                 for (int i = 0; i < asteroidCount; i++)
                 {
-                    asteroid.Add(new Asteroid(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(100, Game.Height - 100)), new Point(wave, 0), new Size(rnd.Next(15, 50), rnd.Next(15, 50))));
+                    asteroid.Add(new Asteroid(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(100, Game.Height - 100)), new Point(gameWave, 0), new Size(rnd.Next(25, 75), rnd.Next(25, 75))));
                 }
             }
 
-            
-
-            for (int i = 0; i < aidKits.Length; i++)
+            for (int i = 0; i < aidKits.Count; i++)
             {
-                if (aidKits[i] == null) continue;
                 if (ship.Collision(aidKits[i]))
                 {
                     ship.EnergyUp(rnd.Next(10, 50));
-                    aidKits[i] = null;
+                    aidKits[i] = new Aidkit(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(Game.Height)), new Point(rnd.Next(1, 3), 0), new Size(15, 15));
                 }
             }
 
-            //bullet.Update();
+            if (!keyUpFlag) ship.Up();
+            if (!keyDownFlag) ship.Down();
+            if (!keyLeftFlag) ship.Left();
+            if (!keyRightFlag) ship.Right();
         }
         /// <summary>
         /// Метод загружает все объекты игры
@@ -230,9 +313,10 @@ namespace HomeWork_2_1
         static public void Load()
         {
             asteroid = new List<Asteroid>();
-            ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(10, 10));
+            ship = new Ship(new Point(10, 400), new Point(5, 5), new Size(40, 20));
             objs = new BaseObject[60];
-            aidKits = new Aidkit[3];
+            aidKits = new List<Aidkit>();
+            bullet = new List<Bullet>();
             asteroidInGame = asteroidCount;
 
 
@@ -244,11 +328,11 @@ namespace HomeWork_2_1
 
             for (int i = 0; i < asteroidCount; i++)
             {
-                asteroid.Add(new Asteroid(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(100, Game.Height - 100)), new Point(1, 0), new Size(rnd.Next(15, 50), rnd.Next(15, 50))));
+                asteroid.Add(new Asteroid(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(100, Game.Height - 100)), new Point(rnd.Next(1, 3), 0), new Size(rnd.Next(25, 75), rnd.Next(25, 75))));
             }
 
-            for (int i = 0; i < aidKits.Length; i++)
-                aidKits[i] = new Aidkit(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(Game.Height)), new Point(rnd.Next(1, 3), 0), new Size(15, 15));
+            for (int i = 0; i < aidKitsCount; i++)
+                aidKits.Add(new Aidkit(new Point(rnd.Next(Game.Width) + Game.Width, rnd.Next(Game.Height)), new Point(rnd.Next(1, 3), 0), new Size(15, 15)));
         }
     }
 }

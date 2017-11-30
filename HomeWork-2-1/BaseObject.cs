@@ -46,7 +46,6 @@ namespace HomeWork_2_1
         {
             if (obj.Rect.IntersectsWith(this.Rect)) return true; else return false;
         }
-
         /// <summary>
         /// Метод задает вид и форму объекта
         /// </summary>

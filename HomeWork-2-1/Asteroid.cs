@@ -9,7 +9,8 @@ namespace HomeWork_2_1
 {
     class Asteroid:BaseObject,ICloneable,IComparable<Asteroid>
     {
-        Random rand = new Random();
+        static Image asteroidImg;
+        Random rnd = new Random();
         public int Power { get; set; }
         public int ScoreForDestruction { get; set; }
         public Point Speed { get; set; }
@@ -17,15 +18,16 @@ namespace HomeWork_2_1
         public Asteroid(Point pos, Point dir, Size size):base(pos, dir, size)
         {
             Power = 1;
-            ScoreForDestruction = 1;
+            ScoreForDestruction = size.Width + size.Height;
             Speed = dir;
+            asteroidImg = Image.FromFile("pictures/asteroid1.png");
         }
         /// <summary>
         /// Метод задает вид и форму объекта
         /// </summary>
         public override void Draw()
         {
-            Game.buffer.Graphics.FillEllipse(Brushes.Gray, pos.X, pos.Y, size.Width, size.Height);
+            Game.buffer.Graphics.DrawImage(asteroidImg, pos.X, pos.Y, size.Width, size.Height);
         }
         /// <summary>
         /// Метод обновляет позицию объекта
@@ -34,15 +36,11 @@ namespace HomeWork_2_1
         {
             pos.X = pos.X - dir.X;
             pos.Y = pos.Y + dir.Y;
-            if (pos.X < (-size.Width)) pos.X = Game.Width + (size.Width + rand.Next(Game.Width));
-        }
-        /// <summary>
-        /// Метод обновляет позицию объекта после столкновения
-        /// </summary>
-        public void UpdateAfterCollision()
-        {
-            pos.X = rand.Next(Game.Width, Game.Width + Game.Width);
-            pos.Y = rand.Next(Game.Height);
+            if (pos.X < (-size.Width))
+            {
+                pos.X = Game.Width + (size.Width + rnd.Next(Game.Width));
+                pos.Y = rnd.Next(Game.Height);
+            }
         }
 
         public object Clone()
@@ -50,7 +48,6 @@ namespace HomeWork_2_1
             Asteroid asteroid = new Asteroid(new Point(pos.X, pos.Y), new Point(dir.X, dir.Y),
             new Size(size.Width, size.Height))
             { Power = Power };
-            // Не забываем скопировать новому астероиду Power нашего астероида
             return asteroid;
         }
 

@@ -9,7 +9,7 @@ namespace HomeWork_2_1
 {
     class Bullet:BaseObject
     {
-        Random rand = new Random();
+        Random rnd = new Random();
 
         public Bullet(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
@@ -32,12 +32,12 @@ namespace HomeWork_2_1
             }
         }
         /// <summary>
-        /// Метод обновляет позицию объекта после столкновения
+        /// Метод возвращает true если объект находится в границах поля игры или false если объект вышел за границы
         /// </summary>
-        public void UpdateAfterCollision()
+        /// <returns></returns>
+        public bool InField()
         {
-            pos.X = 0 + size.Width;
-            pos.Y = rand.Next(50, Game.Height - 50);
+            if (pos.X > (Game.Width + size.Width)) return false; else return true;
         }
         /// <summary>
         /// Метод меняет позицию объекта в место клика мыши
