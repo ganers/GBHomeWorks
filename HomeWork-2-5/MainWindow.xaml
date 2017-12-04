@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HomeWork_2_5"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Width="600" Height="400" MinWidth="600" MinHeight="400" MaxWidth="600" MaxHeight="400">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="CBDepartments" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="250" RenderTransformOrigin="0.258,-2.874" SelectionChanged="CBDepartments_SelectionChanged"/>
+        <ListView x:Name="LVEmployees" HorizontalAlignment="Left" Height="173" Margin="275,31,0,0" VerticalAlignment="Top" Width="307">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="Департамент" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" Width="120" FontWeight="Bold"/>
+        <Label Content="Работник" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="275,0,0,0" Width="120" FontWeight="Bold"/>
+        <Button x:Name="btnOpen" Content="Открыть" HorizontalAlignment="Left" Margin="427,338,0,0" VerticalAlignment="Top" Width="75" Click="btnOpen_Click"/>
+        <Button x:Name="btnAddDepartment" Content="Добавить" HorizontalAlignment="Left" Margin="10,236,0,0" VerticalAlignment="Top" Width="75" Click="btnAddDepartment_Click"/>
+        <TextBox x:Name="TBAddDepartment" HorizontalAlignment="Left" Height="23" Margin="10,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"/>
+        <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Left" Margin="507,338,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
+        <TextBox x:Name="TBAddEmployee" HorizontalAlignment="Left" Height="23" Margin="275,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="307"/>
+        <Button x:Name="btnAddEmployee" Content="Добавить" HorizontalAlignment="Left" Margin="275,236,0,0" VerticalAlignment="Top" Width="75" Click="btnAddEmployee_Click"/>
+        <Button x:Name="btnDelDepartment" Content="Удалить" HorizontalAlignment="Left" Margin="90,236,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="btnDelEmployee" Content="Удалить" HorizontalAlignment="Left" Margin="355,236,0,0" VerticalAlignment="Top" Width="75" Click="btnDelEmployee_Click"/>
+
     </Grid>
 </Window>
