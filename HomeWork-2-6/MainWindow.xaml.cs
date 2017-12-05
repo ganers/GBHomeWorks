@@ -23,6 +23,7 @@ namespace HomeWork_2_6
         public MainWindow()
         {
             InitializeComponent();
+            DataBase db = new DataBase(TypeDataBase.FileSystem, "db");
         }
     }
 }
