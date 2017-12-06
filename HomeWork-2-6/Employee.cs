@@ -8,15 +8,14 @@ namespace HomeWork_2_6
 {
     class Employee
     {
-        int User_id { get; set; }
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        int Age { get; set; }
-        DateTime Birthday { get; set; }
-        double Salary { get; set; }
-        int Id_department { get; set; }
+        public int User_id { get; set; }
+        public int Id_department { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime Birthday { get; set; }
+        public double Salary { get; set; }
 
-        Employee()
+        public Employee()
         {
 
         }

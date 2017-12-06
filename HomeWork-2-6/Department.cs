@@ -8,12 +8,17 @@ namespace HomeWork_2_6
 {
     class Department
     {
-        int Department_id { get; set; }
-        string NameDepartment { get; set; }
+        public int Department_id { get; set; }
+        public string NameDepartment { get; set; }
 
-        Department()
+        public Department()
         {
+        }
 
+        public List<Employee> EmployeesOfTheDepartment(int departmentId, List<Employee> employees)
+        {
+            List<Employee> employeesOfTheDepartment = employees.FindAll(e => e.Id_department == departmentId);
+            return employeesOfTheDepartment;
         }
     }
 }
