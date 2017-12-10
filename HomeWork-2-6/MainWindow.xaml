@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HomeWork_2_6"
         mc:Ignorable="d"
-        Title="База Сотрудников" Width="600" Height="400" MinWidth="600" MinHeight="400" MaxWidth="600" MaxHeight="400">
+        Title="База Сотрудников" Width="600" Height="600" MinWidth="600" MinHeight="600" MaxWidth="600" MaxHeight="600">
     <Grid>
-        
+        <ComboBox x:Name="CBDepartment" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="300" SelectedIndex="0" SelectionChanged="CBDepartment_SelectionChanged"/>
+        <Label x:Name="lblDepartment" Content="Департамент" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <ListView x:Name="LVEmployee" HorizontalAlignment="Left" Height="200" Margin="10,99,0,0" VerticalAlignment="Top" Width="574">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="50" DisplayMemberBinding="{Binding Path=User_id, Mode=OneWay}">ИД</GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Path=FirstName, Mode=OneWay}">Имя</GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Path=LastName, Mode=OneWay}">Фамилия</GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Path=Birthday, Mode=OneWay}">Дата рождения</GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Path=Salary, Mode=OneWay}">Зарплата</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label x:Name="lblEmployee" Content="Работники" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnAddEmployee" Content="Добавить" HorizontalAlignment="Left" Margin="10,304,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="btnAddEmployee_Click"/>
+        <Button x:Name="btnDelEmployee" Content="Удалить" HorizontalAlignment="Left" Margin="90,304,0,0" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button x:Name="btnChangeEmployee" Content="Изменить" HorizontalAlignment="Left" Margin="170,304,0,0" VerticalAlignment="Top" Width="75" Height="22"/>
+        <TextBox x:Name="TBAddDepartment" HorizontalAlignment="Left" Height="23" Margin="315,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176"/>
+        <Button x:Name="btnAddDepartment" Content="Добавить" HorizontalAlignment="Left" Margin="496,41,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.931,-0.615" Height="22" Click="btnAddDepartment_Click"/>
+        <Label x:Name="lblDepartment_Copy" Content="Добавить новый департамент" HorizontalAlignment="Left" Margin="315,10,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Window>

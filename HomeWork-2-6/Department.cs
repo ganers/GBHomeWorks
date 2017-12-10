@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeWork_2_6
 {
-    class Department
+    public class Department
     {
         public int Department_id { get; set; }
         public string NameDepartment { get; set; }

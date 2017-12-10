@@ -7,16 +7,19 @@ using System.IO;
 
 namespace HomeWork_2_6
 {
-    class DataBase:IDisposable
+    public class DataBase:IDisposable
     {
         string nameDB;
-        public List<Employee> employee;
-        public List<Department> department;
+        public List<Employee> employee = new List<Employee>();
+        public List<Department> department = new List<Department>();
 
         string[] stringsTable, splitString;
         Employee tmpEmploye;
         Department tmpDepartment;
-
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="nameDB">Путь к папке с файлами таблиц БД</param>
         public DataBase(string nameDB)
         {
             this.nameDB = nameDB;
@@ -24,7 +27,9 @@ namespace HomeWork_2_6
             ReadDepartment();
             Dispose();
         }
-
+        /// <summary>
+        /// Метод читает таблицу employee и собирает ее в коллекцию
+        /// </summary>
         void ReadEmploye()
         {
             this.stringsTable = File.ReadAllLines($"{nameDB}/employee.table");
@@ -39,7 +44,7 @@ namespace HomeWork_2_6
                     Id_department = Convert.ToInt32(splitString[1]),
                     FirstName = splitString[2],
                     LastName = splitString[3],
-                    Birthday = Convert.ToDateTime(splitString[4]),
+                    Birthday = splitString[4],
                     Salary = Convert.ToInt32(splitString[5])
                 };
 
@@ -47,7 +52,9 @@ namespace HomeWork_2_6
             }
             tmpEmploye = null;
         }
-
+        /// <summary>
+        /// Метод читает таблицу department и собирает ее в коллекцию
+        /// </summary>
         void ReadDepartment()
         {
             this.stringsTable = File.ReadAllLines($"{nameDB}/department.table");
@@ -66,7 +73,9 @@ namespace HomeWork_2_6
             }
             tmpDepartment = null;
         }
-
+        /// <summary>
+        /// Метод обнуляет временные переменные
+        /// </summary>
         public void Dispose()
         {
             stringsTable = null;
